@@ -30,6 +30,10 @@ class App extends Component {
     console.log(event.target.value);
   }
 
+  onButtonSubmit = () => {
+    console.log('click');
+  }
+
   render() {
     return (
       <div className="App">
@@ -39,7 +43,10 @@ class App extends Component {
         <Navigation />
         <Logo />
         <Rank />
-        <ImageLinkForm onInputChange={this.onInputChange}/>
+        <ImageLinkForm
+          onInputChange={this.onInputChange}
+          onButtonSubmit={this.onButtonSubmit}
+        />
         {/*<FaceRecognition />*/}
       </div>
     );
