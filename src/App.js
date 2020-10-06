@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import Navigation from './components/Navigation/Navigation';
+import Signin from './components/Signin/Signin';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
@@ -31,6 +32,7 @@ class App extends Component {
       input: '',
       imageUrl: '',
       box: {},
+      route: 'signin'
     }
   }
 
@@ -49,15 +51,15 @@ class App extends Component {
 
   displayFaceBox = (box) => {
     console.log(box);
-    this.setState({box: box})
+    this.setState({ box: box })
   }
 
   onInputChange = (event) => {
-    this.setState({input: event.target.value});
+    this.setState({ input: event.target.value });
   }
 
   onButtonSubmit = () => {
-    this.setState({imageUrl: this.state.input})
+    this.setState({ imageUrl: this.state.input })
     app.models
       .predict(
         Clarifai.FACE_DETECT_MODEL,
@@ -66,20 +68,29 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
+  onRouteChange = (route) => {
+    this.setState({route: route});
+  }
+
   render() {
     return (
       <div className="App">
         <Particles className='particles'
           params={particlesOptions}
         />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}
-        />
-        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
+        <Navigation onRouteChange={this.onRouteChange}/>
+        { this.state.route === 'signin'
+          ? <Signin onRouteChange={this.onRouteChange}/>
+          : <div>
+              <Logo />
+              <Rank />
+              <ImageLinkForm
+                onInputChange={this.onInputChange}
+                onButtonSubmit={this.onButtonSubmit}
+              />
+              <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} />
+            </div>
+        }
       </div>
     );
   }
