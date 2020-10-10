@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -10,16 +11,16 @@ const database = {
         {
             id: '123',
             name: 'John',
-            email: 'john@gmail.com',
             password: 'cookies',
+            email: 'john@gmail.com',
             entries: 0,
             joined: new Date()
         },
         {
             id: '124',
             name: 'Sally',
-            email: 'sally@gmail.com',
             password: 'bananas',
+            email: 'sally@gmail.com',
             entries: 0,
             joined: new Date()
         }
@@ -83,11 +84,3 @@ app.put('/image', (req, res) => {
 app.listen(3000, () => {
     console.log('app is running on port 3000');
 })
-
-/*
-/ --> res = this is working
-/ signin --> POST = success/fail
-/register --> POST = user
-/profile/:userId --> GET = user
-/image --> PUT --> user
-*/
